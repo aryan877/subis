@@ -1,21 +1,57 @@
 
-#  Subis - Decentralized, Gasless Subscription Management
+# Subis - Decentralized, Gasless Subscription Management
 
-Subis is a decentralized subscription management solution built on zkSync, utilizing Native Account Abstraction supported by zkSync and Chainlink Price Feeds. It aims to provide a permissionless and gasless alternative to centralized financial services, which often charge high fees and may block accounts.
+Subis is a decentralized subscription management solution built on zkSync, utilizing Native Account Abstraction supported by zkSync and Chainlink Price Feeds. It aims to provide a permissionless and gasless alternative to centralized financial services, which often charge high fees and may block accounts. This project is submitted to the Blockmagic Chainlink Hackathon.
 
 ## Project Structure
 
-The project is organized into the following folder structure:
+The project is organized into the following folders:
+
+- [app](https://github.com/aryan877/subis-app): The Next.js frontend application that serves as a dashboard for both subscription providers and subscribers. Subscription providers can manage their subscription plans, view analytics, and monitor subscriber activity. Subscribers can explore available subscription plans, subscribe to plans, manage their subscriptions, set daily spending limits, and view their subscription history. The dashboard provides an intuitive and user-friendly interface for seamless subscription management.
+- [contracts](https://github.com/aryan877/subis-contracts): The Hardhat project containing the smart contracts for Subis.
+- [cron](https://github.com/aryan877/subis-cron): The cron job for automatically charging expired subscriptions.
+- [subis-subscription-example-nextjs](https://github.com/aryan877/subis-subscription-example-nextjs): An example usage of the Subis API to verify user subscriptions.
 
 ```
 subis/
-  ├── app/ (separate GitHub repo)
-  ├── contracts/ (separate GitHub repo)
-  ├── cron/ (separate GitHub repo)
-  └── subscription-api-usage-example/ (separate GitHub repo)
+  ├── app/
+  │   ├── artifacts-zk/
+  │   ├── interaces/
+  │   ├── src/
+  │   ├── public/
+  │   ├── .env
+  │   ├── .env.example
+  │   ├── package.json
+  │   └── ...
+  ├── contracts/
+  │   ├── artifacts-zk/
+  │   ├── contracts/
+  │   ├── deploy/
+  │   ├── test/
+  │   ├── .env
+  │   ├── .env.example
+  │   ├── hardhat.config.ts
+  │   ├── package.json
+  │   └── ...
+  ├── cron/
+  │   ├── artifacts-zk/
+  │   ├── .env
+  │   ├── .env.example
+  │   ├── index.js
+  │   ├── cron.log
+  │   ├── package.json
+  │   └── ...
+  └── subis-subscription-example-nextjs/
+      ├── artifacts-zk/
+      │   ├── interaces/
+      ├── src/
+      ├── .env
+      ├── .env.example
+      ├── package.json
+      └── ...
 ```
 
-Each folder represents a separate GitHub repository that should be cloned locally to set up the project.
+The `artifacts-zk/` directory is present in each folder and contains the compiled smart contract artifacts that are copied from the `contracts` folder after deployment. These artifacts are used by the frontend application, cron job, and subscription example to interact with the deployed smart contracts.
 
 ## Key Features
 
@@ -27,19 +63,15 @@ The Subscription Manager contract utilizes Chainlink Price Feeds to fetch the la
 
 ### Smart Contract Accounts Leveraging the IAccount Interface from zkSync
 
-Subis utilizes concept of Smart Accounts implemeted using the IAccount interface from zkSync, which are smart contract wallets created for each subscriber. These Smart Accounts are deployed using the Native Account Abstraction feature of zkSync, providing advanced functionality and flexibility.
+Subis utilizes the concept of Smart Accounts implemented using the IAccount interface from zkSync, which are smart contract wallets created for each subscriber. These Smart Accounts are deployed using the Native Account Abstraction feature of zkSync, providing advanced functionality and flexibility.
 
-Smart Accounts allow subscribers to set daily spending limits in USD, which are enforced by the contract. The spending limits are converted to ETH using the Chainlink Price Feed, ensuring that subscribers have control over their daily subscription expenses. These wallets can be charged automatically by the subscriber only when their subscription period expires.
+Smart Accounts allow subscribers to set daily spending limits in USD, which are enforced by the contract. The spending limits are converted to ETH using the Chainlink Price Feed, ensuring that subscribers have control over their daily subscription expenses.
 
-### Gasless Subscriptions with zkSync Paymasters
+### Gasless Subscriptions with zkSync Paymasters and EIP-712 Signing
 
-Subis enables gasless subscriptions by leveraging the EIP-712 standard for signing typed data and the EIP-1271 standard for signature verification.
+Subis enables gasless subscriptions by leveraging the EIP-712 standard for signing typed data on the frontend. When a user wants to subscribe to a plan or perform any subscription-related action, they sign a structured message using the EIP-712 standard from the frontend application. This signed message includes the necessary details such as the subscription plan ID, the user's address, and any additional parameters.
 
-When a user wants to subscribe to a plan or perform any subscription-related action, they sign a structured message using the EIP-712 standard from the frontend. This signed message includes the necessary details such as the subscription plan ID, the user's address, and any additional parameters.
-
-The signed message is then sent to the user's Smart Account contract, which implements the EIP-1271 standard. The Smart Account contract verifies the signature using the `isValidSignature` function defined by EIP-1271. If the signature is valid, the contract proceeds with executing the requested action, such as subscribing to a plan or updating the subscription status.
-
-By utilizing EIP-712 for signing messages on the frontend and EIP-1271 for signature verification within the Smart Account contract, Subis eliminates the need for users to sign and submit transactions themselves. This enables gasless subscriptions, as the gas costs are covered by the Subscription Manager contract or a designated paymaster.
+The signed message is then sent to the user's Smart Account contract, which verifies the signature and executes the requested action, such as subscribing to a plan or updating the subscription status. By utilizing EIP-712 for signing messages on the frontend, Subis eliminates the need for users to sign and submit transactions themselves. This enables gasless subscriptions, as the gas costs are covered by the Subscription Manager contract or a designated paymaster.
 
 ### Charge Wallet Functionality
 
@@ -49,64 +81,72 @@ When a subscription payment is due, the Subscription Manager contract calls the 
 
 The Charge Wallet functionality streamlines the subscription payment process and ensures a seamless experience for both the subscription provider and the subscriber. It eliminates the need for manual payment initiation by the subscriber, reducing friction and improving the overall user experience.
 
-### Daily Spend Limits in USD
+### Daily Spend Limits and Subscription Plan Prices in USD
 
-Subis empowers subscribers to set daily spend limits on their Smart Accounts in USD. By leveraging Chainlink Price Feeds, Subis fetches the real-time ETH/USD price and calculates the equivalent amount of ETH that can be spent daily.
+Subis empowers subscribers to set daily spend limits on their Smart Accounts in USD. By leveraging Chainlink Price Feeds, Subis fetches the real-time ETH/USD price and calculates the equivalent amount of ETH that can be spent daily. Subscribers can easily manage their subscription expenses by setting and adjusting their daily spend limits through the Subis application.
 
-Subscribers can easily manage their subscription expenses by setting and adjusting their daily spend limits through the Subis application. The Smart Account contract enforces these limits, ensuring that the subscriber's spending remains within their specified budget.
-
-### Subscription Plan Prices in USD
-
-Subscription providers can define their subscription plan prices in USD when creating plans using Subis. This brings predictability and stability to the pricing structure, as subscribers know exactly how much they will be charged in USD terms.
-
-Subis utilizes Chainlink Price Feeds to fetch the current ETH/USD price and calculates the equivalent amount of ETH required for each subscription plan. This ensures that the correct amount of ETH is charged based on the USD price at the time of subscription.
+Subscription providers can define their subscription plan prices in USD when creating plans using Subis. This brings predictability and stability to the pricing structure, as subscribers know exactly how much they will be charged in USD terms. Subis utilizes Chainlink Price Feeds to fetch the current ETH/USD price and calculates the equivalent amount of ETH required for each subscription plan.
 
 ### Flexible Subscription Management
 
 Subis offers a range of subscription management features to provide flexibility and convenience for both subscribers and subscription providers. These features include:
 
-- **Subscription Upgrade/Downgrade**: Subscribers can easily upgrade or downgrade their subscription plans based on their changing needs. Subis handles the proration of subscription fees, ensuring that subscribers are charged fairly for the remaining period of their current plan and the new plan they are switching to.
-
-- **Subscription Cancellation**: Subscribers have the option to cancel their subscriptions at any time. Upon cancellation, Subis automatically stops future charges and notifies the subscription provider of the cancellation.
-
-- **Subscription Renewal**: Subis supports automatic renewal of subscriptions based on the specified billing cycle. Subscribers can choose to enable or disable automatic renewal for their subscriptions.
-
-- **Subscription Expiration**: When a subscription expires, Subis automatically marks the subscription as inactive and stops any further charges. Subscribers can choose to renew their subscription or let it expire.
+- **Subscription Upgrade/Downgrade**: Subscribers can easily upgrade or downgrade their subscription plans based on their changing needs.
+- **Subscription Cancellation**: Subscribers have the option to cancel their subscriptions at any time.
+- **Subscription Renewal**: Subis supports automatic renewal of subscriptions based on the specified billing cycle.
+- **Subscription Expiration**: When a subscription expires, Subis automatically marks the subscription as inactive and stops any further charges.
 
 ### Subscription Analytics
 
 Subis provides subscription providers with valuable insights and analytics related to their subscription plans and subscribers. The analytics data includes:
 
 - **Subscriber Count**: The total number of active subscribers for each subscription plan.
-- **Revenue**: The total revenue generated from each subscription plan and overall ( converted to ETH to USD using Chainlink price feeds ).
+- **Revenue**: The total revenue generated from each subscription plan and overall, converted from ETH to USD using Chainlink Price Feeds.
 
 These analytics help subscription providers make data-driven decisions, optimize their pricing strategies, and improve their offerings based on subscriber behavior and preferences.
 
-## Cron Job: Run Daily at 12:00 AM UTC to Automatically Charge All Expired Subscriptions
-
-In the future, when Chainlink Automation is supported on zkSync, this process can be further decentralized and automated on-chain, eliminating the need for external cron jobs.
-
-To ensure that subscribed users are charged regularly, subscription providers need to set up a cron job that runs the `chargeExpiredSubscriptions` function on their deployed Subscription Manager contract. This function should be called daily at a specific time (e.g., 12 PM UTC) to process the charges for expired subscriptions.
-
-The cron job takes care of automatically charging subscribers based on their subscription terms and the current time. It retrieves the list of expired subscriptions and initiates the charging process for each subscriber's Smart Account.
-
-## Subscription API Usage Example
-
-Subis provides a flexible infrastructure for subscription providers to integrate subscription management into their own applications. Providers can deploy their own Subscription Manager contracts and utilize the contract addresses to verify user subscriptions and grant access to their services accordingly.
-
-An example of how to use the Subis API to verify user subscriptions can be found in the `subscription-api-usage-example` folder. This example demonstrates how to sign a message using on the frontend and send it to a Next.js API, which verifies the signature and fetches the user's subscribed plan.
-
 ## Getting Started
 
-To set up the project locally, follow these steps:
+To set up the Subis project locally, follow these steps:
 
 1. Clone the separate GitHub repositories for each folder into the respective directories within the `subis` folder:
    - `app`: `git clone https://github.com/aryan877/subis-app.git`
    - `contracts`: `git clone https://github.com/aryan877/subis-contracts.git`
    - `cron`: `git clone https://github.com/aryan877/subis-cron.git`
-   - `subis-subscription-example-nextjs`: `git clone https://github.com/aryan877/subis-subscription-example-nextjs.git`
+   - `subscription-api-usage-example`: `git clone https://github.com/aryan877/subis-subscription-example-nextjs.git`
 
-2. Follow the instructions provided in each repository's README file to set up and run the individual components.
+2. Set up the `contracts` folder:
+   - Navigate to the `contracts` folder: `cd contracts`
+   - Install the required dependencies: `yarn install`
+   - Create a .env file
+   - Set up the environment variable `WALLET_PRIVATE_KEY` in the `.env` file with your wallet's private key and `PRICE_FEED_ADDRESS=0xfEefF7c3fB57d18C5C6Cdd71e45D2D0b4F9377bF` (ETH/USD price feed address on zkSync sepolia).
+   - Compile the contracts: `yarn hardhat:compile`
+   - Deploy the contracts: `yarn deploy`
+   - The deployment script will automatically update the `.env` files in the root directory and the `app` directory with the deployed contract addresses.
+
+3. Set up the `app` folder:
+   - Navigate to the `app` folder: `cd ../app`
+   - The factory contract addresses were be automatically updated in the `.env` file by the deployment script in `/contracts`.
+   - Set up the environment variable `NEXT_PUBLIC_PRICE_FEED_ADDRESS=0xfEefF7c3fB57d18C5C6Cdd71e45D2D0b4F9377bF` (ETH/USD price feed address on zkSync Sepolia) in the `.env` file.
+   - Install the required dependencies: `yarn install`
+   - Start the Next.js development server: `yarn dev`
+   - Access the Subis application at `http://localhost:3000`
+
+4. Set up the `cron` folder:
+   - Navigate to the `cron` folder: `cd ../cron`
+   - Install the required dependencies: `yarn install`
+   -  Add the environment variable `SUBSCRIPTION_MANAGER_ADDRESS` once it is deployed through the Next.js frontend in `/app`
+   - Add the environment variable `WALLET_PRIVATE_KEY` (the owner wallet private key of the deployed Subscription Manager) to the `.env` file.
+   - Start the cron server: `yarn start`
+   - Hit the `/start` express endpoint to start the cron job for automatically charging expired subscriptions on 12:00:02 AM UTC daily.
+
+5. Set up the `subscription-api-usage-example` folder:
+   - Navigate to the `subscription-api-usage-example` folder: `cd ../subscription-api-usage-example`
+   - Install the required dependencies: `yarn install`
+   -  Add the environment variable `SUBSCRIPTION_MANAGER_ADDRESS` once it is deployed through Next.js frontend
+   - Add the environment variable `AA_FACTORY_ADDRESS` ( deployed in step 2 ) to the `.env` file.
+   - Start the Next.js development server: `yarn dev`
+   - Access the example API usage at `http://localhost:3000`  which hits the api endpoint at `http://localhost:3000/api/verify-subscription` to verify message signature and retreive the user's subscription plan
 
 ## Deployment
 
@@ -122,3 +162,5 @@ We welcome contributions to the Subis project. If you encounter any issues or ha
 This project is licensed under the MIT License.
 
 ---
+
+This README provides a comprehensive overview of the Subis project, including its key features, project structure, and setup instructions. It also includes deployment information, contribution guidelines, and the project's license. The GitHub links are provided for each component, along with the folder structure for a clear understanding of the project's organization.
