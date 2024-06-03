@@ -16,7 +16,7 @@ The project is organized into the following folders:
 subis/
   ├── app/
   │   ├── artifacts-zk/
-  │   ├── interaces/
+  │   ├── interfaces/
   │   ├── src/
   │   ├── public/
   │   ├── .env
@@ -43,7 +43,7 @@ subis/
   │   └── ...
   └── subis-subscription-example-nextjs/
       ├── artifacts-zk/
-      │   ├── interaces/
+      ├── interfaces/
       ├── src/
       ├── .env
       ├── .env.example
