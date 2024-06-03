@@ -113,7 +113,7 @@ To set up the Subis project locally, follow these steps:
    - `app`: `git clone https://github.com/aryan877/subis-app.git`
    - `contracts`: `git clone https://github.com/aryan877/subis-contracts.git`
    - `cron`: `git clone https://github.com/aryan877/subis-cron.git`
-   - `subscription-api-usage-example`: `git clone https://github.com/aryan877/subis-subscription-example-nextjs.git`
+   - `subis-subscription-example-nextjs`: `git clone https://github.com/aryan877/subis-subscription-example-nextjs.git`
 
 2. Set up the `contracts` folder:
    - Navigate to the `contracts` folder: `cd contracts`
@@ -142,8 +142,8 @@ To set up the Subis project locally, follow these steps:
    - Start the cron server: `yarn start`
    - Hit the `/start` express endpoint to start the cron job for automatically charging expired subscriptions on 12:00:02 AM UTC daily.
 
-5. Set up the `subscription-api-usage-example` folder:
-   - Navigate to the `subscription-api-usage-example` folder: `cd ../subscription-api-usage-example`
+5. Set up the `subis-subscription-example-nextjs` folder:
+   - Navigate to the `subis-subscription-example-nextjs` folder: `cd ../subis-subscription-example-nextjs`
    - Install the required dependencies: `yarn install`
    -  Add the environment variable `SUBSCRIPTION_MANAGER_ADDRESS` once it is deployed through Next.js frontend
    - Add the environment variable `AA_FACTORY_ADDRESS` ( deployed in step 2 ) to the `.env` file.
