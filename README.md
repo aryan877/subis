@@ -1,5 +1,5 @@
 
-# Subis - Simplifying Decentralized Subscriptions with Gasless User Payments
+# Subis - Decentralized Subscription Service with Gasless Payments
 
 Subis is a decentralized subscription management solution built on zkSync, utilizing Native Account Abstraction supported by zkSync and Chainlink Price Feeds. It aims to provide a permissionless and gasless alternative to centralized financial services, which often charge high fees and may block accounts. This project is submitted to the Blockmagic Chainlink Hackathon.
 
