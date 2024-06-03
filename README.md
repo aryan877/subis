@@ -3,6 +3,17 @@
 
 Subis is a decentralized subscription management solution built on zkSync, utilizing Native Account Abstraction supported by zkSync and Chainlink Price Feeds. It aims to provide a permissionless and gasless alternative to centralized financial services, which often charge high fees and may block accounts. This project is submitted to the Blockmagic Chainlink Hackathon.
 
+
+## Deployed Contracts
+
+The Subis contracts are currently deployed on the zkSync Sepolia testnet. Here are the contract addresses:
+
+- AA Factory: `0xcEa62E27DA26129CDAB1784Ea59F9ae4a39DdcE8`
+- Manager Factory: `0x6367daDA707E978c3a050C74C5f1cC51001b0066`
+
+You can interact with these contracts using the zkSync Sepolia testnet and the provided addresses.
+
+
 ## Project Structure
 
 The project is organized into the following folders:
