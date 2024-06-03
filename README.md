@@ -120,6 +120,8 @@ To set up the Subis project locally, follow these steps:
    - Install the required dependencies: `yarn install`
    - Create a .env file
    - Set up the environment variable `WALLET_PRIVATE_KEY` in the `.env` file with your wallet's private key and `PRICE_FEED_ADDRESS=0xfEefF7c3fB57d18C5C6Cdd71e45D2D0b4F9377bF` (ETH/USD price feed address on zkSync sepolia).
+   - Ensure your wallet address (derived from WALLET_PRIVATE_KEY) is funded with test ETH on zkSync Sepolia to deploy the factory contracts.
+   - Compile the contracts: `yarn hardhat:compile`
    - Compile the contracts: `yarn hardhat:compile`
    - Deploy the contracts: `yarn deploy`
    - The deployment script will automatically update the `.env` files in the root directory and the `app` directory with the deployed contract addresses.
