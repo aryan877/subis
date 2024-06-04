@@ -169,11 +169,3 @@ The project is currently deployed on the zkSync Sepolia testnet. Here are the li
 ## Contribution
 
 We welcome contributions to the Subis project. If you encounter any issues or have suggestions for improvements, please open an issue or submit a pull request in the respective GitHub repository.
-
-## License
-
-This project is licensed under the MIT License.
-
----
-
-This README provides a comprehensive overview of the Subis project, including its key features, project structure, and setup instructions. It also includes deployment information, contribution guidelines, and the project's license. The GitHub links are provided for each component, along with the folder structure for a clear understanding of the project's organization.
