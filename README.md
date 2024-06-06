@@ -1,8 +1,6 @@
-
 # Subis - Decentralized Subscription Service with Gasless Payments
 
 Subis is a decentralized subscription management solution built on zkSync, utilizing Native Account Abstraction supported by zkSync and Chainlink Price Feeds. It aims to provide a permissionless and gasless alternative to centralized financial services, which often charge high fees and may block accounts. This project is submitted to the Blockmagic Chainlink Hackathon.
-
 
 ## Deployed Contracts
 
@@ -12,7 +10,6 @@ The Subis contracts are currently deployed on the zkSync Sepolia testnet. Here a
 - Manager Factory: `0x6367daDA707E978c3a050C74C5f1cC51001b0066`
 
 You can interact with these contracts using the zkSync Sepolia testnet and the provided addresses.
-
 
 ## Project Structure
 
@@ -121,23 +118,25 @@ These analytics help subscription providers make data-driven decisions, optimize
 To set up the Subis project locally, follow these steps:
 
 1. Clone the separate GitHub repositories for each folder into the respective directories within the `subis` folder:
+
    - `app`: `git clone https://github.com/aryan877/subis-app.git`
    - `contracts`: `git clone https://github.com/aryan877/subis-contracts.git`
    - `cron`: `git clone https://github.com/aryan877/subis-cron.git`
    - `subis-subscription-example-nextjs`: `git clone https://github.com/aryan877/subis-subscription-example-nextjs.git`
 
 2. Set up the `contracts` folder:
+
    - Navigate to the `contracts` folder: `cd contracts`
    - Install the required dependencies: `yarn install`
    - Create a .env file
    - Set up the environment variable `WALLET_PRIVATE_KEY` in the `.env` file with your wallet's private key and `PRICE_FEED_ADDRESS=0xfEefF7c3fB57d18C5C6Cdd71e45D2D0b4F9377bF` (ETH/USD price feed address on zkSync sepolia).
    - Ensure your wallet address (derived from WALLET_PRIVATE_KEY) is funded with test ETH on zkSync Sepolia to deploy the factory contracts.
    - Compile the contracts: `yarn hardhat:compile`
-   - Compile the contracts: `yarn hardhat:compile`
    - Deploy the contracts: `yarn deploy`
    - The deployment script will automatically update the `.env` files in the root directory and the `app` directory with the deployed contract addresses.
 
 3. Set up the `app` folder:
+
    - Navigate to the `app` folder: `cd ../app`
    - The factory contract addresses were be automatically updated in the `.env` file by the deployment script in `/contracts`.
    - Set up the environment variable `NEXT_PUBLIC_PRICE_FEED_ADDRESS=0xfEefF7c3fB57d18C5C6Cdd71e45D2D0b4F9377bF` (ETH/USD price feed address on zkSync Sepolia) in the `.env` file.
@@ -146,9 +145,10 @@ To set up the Subis project locally, follow these steps:
    - Access the Subis application at `http://localhost:3000`
 
 4. Set up the `cron` folder:
+
    - Navigate to the `cron` folder: `cd ../cron`
    - Install the required dependencies: `yarn install`
-   -  Add the environment variable `SUBSCRIPTION_MANAGER_ADDRESS` once it is deployed through the Next.js frontend in `/app`
+   - Add the environment variable `SUBSCRIPTION_MANAGER_ADDRESS` once it is deployed through the Next.js frontend in `/app`
    - Add the environment variable `WALLET_PRIVATE_KEY` (the owner wallet private key of the deployed Subscription Manager) to the `.env` file.
    - Start the cron server: `yarn start`
    - Hit the `/start` express endpoint to start the cron job for automatically charging expired subscriptions on 12:00:02 AM UTC daily.
@@ -156,16 +156,17 @@ To set up the Subis project locally, follow these steps:
 5. Set up the `subis-subscription-example-nextjs` folder:
    - Navigate to the `subis-subscription-example-nextjs` folder: `cd ../subis-subscription-example-nextjs`
    - Install the required dependencies: `yarn install`
-   -  Add the environment variable `SUBSCRIPTION_MANAGER_ADDRESS` once it is deployed through Next.js frontend
+   - Add the environment variable `SUBSCRIPTION_MANAGER_ADDRESS` once it is deployed through Next.js frontend
    - Add the environment variable `AA_FACTORY_ADDRESS` ( deployed in step 2 ) to the `.env` file.
    - Start the Next.js development server: `yarn dev`
-   - Access the example API usage at `http://localhost:3000`  which hits the api endpoint at `http://localhost:3000/api/verify-subscription` to verify message signature and retreive the user's subscription plan
+   - Access the example API usage at `http://localhost:3000` which hits the api endpoint at `http://localhost:3000/api/verify-subscription` to verify message signature and retreive the user's subscription plan
 
 ## Deployment
 
 The project is currently deployed on the zkSync Sepolia testnet. Here are the links to the deployed components:
+
 - App: [https://subis-app.vercel.app/](https://subis-app.vercel.app/)
 
 ## Contribution
 
-We welcome contributions to the Subis project. If you encounter any issues or have suggestions for improvements, please open an issue or submit a pull request in the respective GitHub repository.
+We welcome contributions to the Subis project. If you encounter any issues or have suggestions for improvements, please open an issue or submit a pull request in the respective GitHub repository. The MIT License (MIT) applies to all the repositories mentioned in this README, including the main repository and the sub-repositories (app, contracts, cron, and subis-subscription-example-nextjs). The entire Subis project and its constituent components are licensed under the MIT License terms.
